@@ -1,5 +1,9 @@
 package main
 
+import (
+	"github.com/msteinert/pam"
+)
+
 // PAM Authentication Backend
 type PAM struct {
 	Service string
