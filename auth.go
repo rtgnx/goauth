@@ -39,7 +39,7 @@ func (p PAM) Authenticate(c Credentials) (bool, error) {
 	})
 
 	if err != nil {
-		return err
+		return false, err
 	}
 
 	if err = t.Authenticate(0); err != nil {
