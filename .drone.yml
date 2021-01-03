@@ -6,5 +6,6 @@ steps:
 - name: backend
   image: golang
   commands:
+  - apt update && apt install libpam0g-dev
   - go build
   - go test
