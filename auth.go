@@ -1,9 +1,8 @@
 package main
 
 import (
-	"errors"
-
-	"github.com/msteinert/pam"
+	"fmt"
+	"strings"
 )
 
 // Credentials type
@@ -20,30 +19,15 @@ type AuthBackend interface {
 	Authenticate(Credentials) (bool, error)
 }
 
-// PAM Authentication Backend
-type PAM struct {
-	Service string
+type SimpleAuth struct {
+	UserDB map[string]string
 }
 
-// Authenticate against pam passwd daabase (Linux Only)
-func (p PAM) Authenticate(c Credentials) (bool, error) {
+func (sa SimpleAuth) Authenticate(c Credentials) (bool, error) {
+	passwd, ok := sa.UserDB[c.Login]
 
-	t, err := pam.StartFunc(p.Service, c.Login, func(s pam.Style, msg string) (string, error) {
-		switch s {
-		case pam.PromptEchoOff:
-			return c.Password, nil
-		case pam.PromptEchoOn, pam.ErrorMsg, pam.TextInfo:
-			return "", nil
-		}
-		return "", errors.New("Unrecognized PAM message style")
-	})
-
-	if err != nil {
-		return false, err
-	}
-
-	if err = t.Authenticate(0); err != nil {
-		return false, err
+	if !ok || strings.Compare(passwd, c.Password) != 0 {
+		return false, fmt.Errorf("Unable to authenticate: %s", c.Login)
 	}
 
 	return true, nil

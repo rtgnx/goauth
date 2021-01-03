@@ -13,7 +13,7 @@ var (
 	e                       = echo.New()
 	port                    = os.Getenv("PORT")
 	host                    = os.Getenv("HOST")
-	authBackend AuthBackend = PAM{Service: "passwd"}
+	authBackend AuthBackend = SimpleAuth{UserDB: map[string]string{"test": "test"}}
 )
 
 func main() {
