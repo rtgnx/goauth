@@ -19,7 +19,7 @@ func (p PAM) Authenticate(c Credentials) (bool, error) {
 		case pam.PromptEchoOn, pam.ErrorMsg, pam.TextInfo:
 			return "", nil
 		}
-		return "", errors.New("Unrecognized PAM message style")
+		return "", fmt.Errorf("Unrecognized PAM message style")
 	})
 
 	if err != nil {
