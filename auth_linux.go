@@ -1,3 +1,4 @@
+package main
 
 // PAM Authentication Backend
 type PAM struct {
