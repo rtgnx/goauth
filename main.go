@@ -27,7 +27,7 @@ func main() {
 	)
 
 	e.GET("/auth", getAuthenticate)
-	e.Logger.Debug(e.Start(fmt.Sprintf("%s:%s", host, port)))
+	e.Logger.Info(e.Start(fmt.Sprintf("%s:%s", host, port)))
 }
 
 func getAuthenticate(ctx echo.Context) error {
